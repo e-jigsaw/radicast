@@ -1,7 +1,6 @@
 package main
 
-// api for radiko, rtmpdump and ffmpeg command parameter
-// are taken from https://github.com/miyagawa/ripdiko
+// api for radiko, rtmpdump and ffmpeg command parameter // are taken from https://github.com/miyagawa/ripdiko
 
 import (
 	"encoding/base64"
@@ -21,22 +20,20 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/net/context"
-)
+	"golang.org/x/net/context" )
 
 const (
 	radikoTimeLayout = "20060102150405"
-	playerUrl        = "http://radiko.jp/player/swf/player_3.0.0.01.swf"
-)
+	playerUrl = "http://radiko.jp/apps/js/flash/mplayer-release.swf" )
 
 type RadikoPrograms struct {
 	Stations struct {
 		Station []struct {
-			Id   string `xml:"id,attr"`
+			Id string `xml:"id,attr"`
 			Name string `xml:"name"`
-			Scd  struct {
+			Scd struct {
 				Progs struct {
-					Date string       `xml:"date"`
+					Date string `xml:"date"`
 					Prog []RadikoProg `xml:"prog"`
 				} `xml:"progs"`
 			} `xml:"scd"`
@@ -45,18 +42,18 @@ type RadikoPrograms struct {
 }
 
 type RadikoProg struct {
-	XMLName  xml.Name `xml:"prog"`
-	Ft       string   `xml:"ft,attr"`
-	To       string   `xml:"to,attr"`
-	Ftl      string   `xml:"ftl,attr"`
-	Tol      string   `xml:"tol,attr"`
-	Dur      string   `xml:"dur,attr"`
-	Title    string   `xml:"title"`
-	Subtitle string   `xml:"subtitle"`
-	Pfm      string   `xml:"pfm"`
-	Desc     string   `xml:"desc"`
-	Info     string   `xml:"info"`
-	Url      string   `xml:"url"`
+	XMLName xml.Name `xml:"prog"`
+	Ft string `xml:"ft,attr"`
+	To string `xml:"to,attr"`
+	Ftl string `xml:"ftl,attr"`
+	Tol string `xml:"tol,attr"`
+	Dur string `xml:"dur,attr"`
+	Title string `xml:"title"`
+	Subtitle string `xml:"subtitle"`
+	Pfm string `xml:"pfm"`
+	Desc string `xml:"desc"`
+	Info string `xml:"info"`
+	Url string `xml:"url"`
 }
 
 func (r *RadikoProg) FtTime() (time.Time, error) {
@@ -77,7 +74,7 @@ func (r *RadikoProg) Duration() (int64, error) {
 
 type RadikoResult struct {
 	Mp3Path string
-	Prog    *RadikoProg
+	Prog *RadikoProg
 	Station string
 }
 
@@ -104,7 +101,7 @@ func (r *RadikoResult) Save(dir string) error {
 	defer xmlFile.Close()
 
 	enc := xml.NewEncoder(xmlFile)
-	enc.Indent("", "    ")
+	enc.Indent("", " ")
 	if err := enc.Encode(r.Prog); err != nil {
 		return err
 	}
@@ -119,12 +116,12 @@ func (r *RadikoResult) Log(v ...interface{}) {
 }
 
 type Radiko struct {
-	Station   string
-	Bitrate   string
-	Buffer    int64
+	Station string
+	Bitrate string
+	Buffer int64
 	Converter string
-	TempDir   string
-	Result    *RadikoResult
+	TempDir string
+	Result *RadikoResult
 }
 
 func (r *Radiko) Run(ctx context.Context) error {
@@ -210,8 +207,8 @@ func (r *Radiko) run(ctx context.Context) []*RadikoResult {
 	}
 }
 
-// http://superuser.com/questions/314239/how-to-join-merge-many-mp3-files
-func (r *Radiko) ConcatOutput(dir string, results []*RadikoResult) (*RadikoResult, error) {
+// http://superuser.com/questions/314239/how-to-join-merge-many-mp3-files func (r *Radiko) ConcatOutput(dir string, results []*RadikoResult) 
+(*RadikoResult, error) {
 	output := filepath.Join(dir, "radiko_concat.mp3")
 
 	outputs := []string{}
@@ -237,7 +234,7 @@ func (r *Radiko) ConcatOutput(dir string, results []*RadikoResult) (*RadikoResul
 	return &RadikoResult{
 		Mp3Path: output,
 		Station: results[0].Station,
-		Prog:    results[0].Prog,
+		Prog: results[0].Prog,
 	}, nil
 }
 
@@ -366,7 +363,7 @@ func (r *Radiko) record(ctx context.Context, output string, station string, bitr
 	ret := &RadikoResult{
 		Mp3Path: output,
 		Station: station,
-		Prog:    prog,
+		Prog: prog,
 	}
 
 	return ret, err
@@ -445,8 +442,7 @@ func (r *Radiko) download(ctx context.Context, authtoken string, station string,
 	return nil
 }
 
-// return authtoken, area, err
-func (r *Radiko) auth(ctx context.Context) (string, string, error) {
+// return authtoken, area, err func (r *Radiko) auth(ctx context.Context) (string, string, error) {
 	req, err := http.NewRequest("GET", playerUrl, nil)
 
 	if err != nil {
@@ -618,8 +614,8 @@ func (r *Radiko) Log(v ...interface{}) {
 	log.Println("[radiko]", fmt.Sprint(v...))
 }
 
-// http://blog.golang.org/context/google/google.go
-func (r *Radiko) httpDo(ctx context.Context, req *http.Request, f func(*http.Response, error) error) error {
+// http://blog.golang.org/context/google/google.go func (r *Radiko) httpDo(ctx context.Context, req *http.Request, f func(*http.Response, error) 
+error) error {
 	r.Log(req.Method + " " + req.URL.String())
 
 	errChan := make(chan error)
