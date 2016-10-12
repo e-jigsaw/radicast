@@ -498,7 +498,7 @@ func (r *Radiko) auth(ctx context.Context) (string, string, error) {
 		os.Remove(tmpAuthKeyPngFile.Name())
 	}()
 
-	swfextractCmd := exec.Command(swfextract, "-b", "14", tmpSwfFile.Name(), "-o", tmpAuthKeyPngFile.Name())
+	swfextractCmd := exec.Command(swfextract, "-b", "12", tmpSwfFile.Name(), "-o", tmpAuthKeyPngFile.Name())
 	if err := swfextractCmd.Run(); err != nil {
 		return "", "", err
 	}
