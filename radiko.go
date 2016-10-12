@@ -207,8 +207,8 @@ func (r *Radiko) run(ctx context.Context) []*RadikoResult {
 	}
 }
 
-// http://superuser.com/questions/314239/how-to-join-merge-many-mp3-files func (r *Radiko) ConcatOutput(dir string, results []*RadikoResult) 
-(*RadikoResult, error) {
+// http://superuser.com/questions/314239/how-to-join-merge-many-mp3-files
+func (r *Radiko) ConcatOutput(dir string, results []*RadikoResult) (*RadikoResult, error) {
 	output := filepath.Join(dir, "radiko_concat.mp3")
 
 	outputs := []string{}
