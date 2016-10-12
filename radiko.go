@@ -25,7 +25,7 @@ import (
 
 const (
 	radikoTimeLayout = "20060102150405"
-	playerUrl        = "http://radiko.jp/apps/js/flash/mplayer-release.swf"
+	playerUrl        = "http://radiko.jp/apps/js/flash/myplayer-release.swf"
 )
 
 type RadikoPrograms struct {
